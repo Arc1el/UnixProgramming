@@ -1,0 +1,14 @@
+# Makefile
+  
+cc = gcc
+CFLAG = -g
+
+all : 
+        make p_cook.exe
+        make c_cook.exe
+
+p_cook.exe : p_cook.c
+        gcc -o p_cook.exe p_cook.c
+
+c_cook.exe : c_cook.c
+        gcc -o c_cook.exe c_cook.c
