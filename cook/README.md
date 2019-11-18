@@ -1,4 +1,7 @@
 # cook
+
+![Image of Result](https://github.com/Arc1el/UnixProgramming/blob/master/cook/result.png)
+
 주문-조리 프로그램
 1. 부모 프로세스 - 손님 접대 (주문 및 요리 제공)
 2. 자식 프로세스 - 조리 (요리 시작 - 완료)
