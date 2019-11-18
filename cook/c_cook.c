@@ -11,28 +11,64 @@ void sigusr1_handler(int signo);
 
 /*************************************************************************/
 void alrm_handler(int signo)
-{       //¿ä¸®°¡ ¿Ï¼ºµÊÀ» Ãâ·Â
-        printf("¿Ï¼ºµÈ ¿ä¸®¸¦ Àü´ŞÇÕ´Ï´Ù.\n");
+{       //ìš”ë¦¬ê°€ ì™„ì„±ë¨ì„ ì¶œë ¥
+        printf("ì™„ì„±ëœ ìš”ë¦¬ë¥¼ ì „ë‹¬í•©ë‹ˆë‹¤.\n");
+        kill(getppid(), SIGUSR1); //ë¶€ëª¨ì—ê²Œ SIGUSR1ì‹œê·¸ë„ì„ ë³´ëƒ„
 
-        kill(getppid(), SIGUSR1); //ºÎ¸ğ¿¡°Ô SIGUSR1½Ã±×³ÎÀ» º¸³¿
+        struct sigaction act;
+        sigemptyset(&act.sa_mask);
+        act.sa_flags = 0;
+        act.sa_handler = SIG_DFL;
+        int signum;
+        for(signum=1; signum<=40; signum++) //ëª¨ë“ ì‹œê·¸ë„ ë¬´ì‹œë¥¼ ë””í´íŠ¸ ë™ì‘ìœ¼ë¡œ ë˜ëŒë¦¼
+        {
+                sigaction(signum, &act, (struct sigaction *)NULL);
+        }
+
+        sigemptyset(&act.sa_mask);
+        act.sa_flags = 0;
+        act.sa_handler = sigusr1_handler;
+        if(sigaction(SIGUSR1, &act, (struct sigaction *)NULL) < 0)
+        {
+                perror("sigaction ì—ëŸ¬ ë°œìƒ");
+                exit(1);
+        }
 }
 /*************************************************************************/
 void sigusr1_handler(int signo)
 {
         printf("---------- child process ----------\n");
-        printf("ÁÖ¹®ÀÌ Á¢¼öµÇ¾ú½À´Ï´Ù.\n");
+        printf("ì£¼ë¬¸ì´ ì ‘ìˆ˜ë˜ì—ˆìŠµë‹ˆë‹¤.\n");
 
         struct sigaction act;
+        sigemptyset(&act.sa_mask);
+        act.sa_flags = 0;
+        act.sa_handler = SIG_IGN;
+        int signum;
+        for(signum=1; signum<=40; signum++) //SIGALRMì„ ì œì™¸í•œ ëª¨ë“  ì‹œê·¸ë„ ë¬´ì‹œ
+        {
+                if((signum != SIGALRM) && (signum != 9) && (signum != 19))
+                {
+                        sigaction(signum, &act, (struct sigaction *)NULL);
+                }
+        }
+
+        sigemptyset(&act.sa_mask);
         act.sa_flags = 0;
         act.sa_handler = alrm_handler;
-
-        //ALRM½Ã±×³Î ¹ŞÀ»°æ¿ì ¾Ë¶÷ÇÚµé·¯ È£Ãâ
         if(sigaction(SIGALRM, &act, (struct sigaction *)NULL) < 0)
         {
-                perror("sigaction ¿¡·¯ ¹ß»ı");
+                perror("sigaction ì—ëŸ¬ë°œìƒ");
                 exit(1);
         }
-        //ÀÏÁ¤ Á¶¸®½Ã°£ ÈÄ SIGALRM½Ã±×³ÎÀ» º¸³¿(¾Ë¶÷ÇÚµé·¯ È£Ãâ)
+
+        //ALRMì‹œê·¸ë„ ë°›ì„ê²½ìš° ì•ŒëŒí•¸ë“¤ëŸ¬ í˜¸ì¶œ
+        if(sigaction(SIGALRM, &act, (struct sigaction *)NULL) < 0)
+        {
+                perror("sigaction ì—ëŸ¬ ë°œìƒ");
+                exit(1);
+        }
+        //ì¼ì • ì¡°ë¦¬ì‹œê°„ í›„ SIGALRMì‹œê·¸ë„ì„ ë³´ëƒ„(ì•ŒëŒí•¸ë“¤ëŸ¬ í˜¸ì¶œ)
         alarm(TIME_FOR_COOK);
 }
 /*************************************************************************/
@@ -41,26 +77,20 @@ int main(void)
 {
 
         struct sigaction act;
+        sigemptyset(&act.sa_mask);
         act.sa_flags = 0;
         act.sa_handler = sigusr1_handler;
 
-        //SIGALRM, SIGUSR1À» Á¦¿ÜÇÑ ¸ğµç½Ã±×³Î ºí·Ï
-        sigset_t block;
-        sigfillset(&block);
-        sigdelset(&block, SIGALRM);
-        sigdelset(&block, SIGUSR1);
-        sigprocmask(SIG_SETMASK, &block, NULL);
-
-        //ºÎ¸ğ·ÎºÎÅÍ SIGUSR1À» ¹Ş¾Æ¿À¸é Á¶¸®½ÃÀÛ(ÇÚµé·¯ È£Ãâ)
+        //ë¶€ëª¨ë¡œë¶€í„° SIGUSR1ì„ ë°›ì•„ì˜¤ë©´ ì¡°ë¦¬ì‹œì‘(í•¸ë“¤ëŸ¬ í˜¸ì¶œ)
         if(sigaction(SIGUSR1, &act, (struct sigaction *)NULL) < 0)
         {
-                perror("sigaction ¿¡·¯ ¹ß»ı");
+                perror("sigaction ì—ëŸ¬ ë°œìƒ");
                 exit(1);
         }
 
         while(1)
         {
-                sleep(999);     //½Ã±×³Î ¹ß»ı±îÁö ´ë±â
+                sleep(999);     //ì‹œê·¸ë„ ë°œìƒê¹Œì§€ ëŒ€ê¸°
         }
 
         return 0;
