@@ -4,33 +4,29 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int pid_child; //ÀÚ½ÄÀÇ pid¸¦ ÇÒ´çÇÏ±â À§ÇÑ Àü¿ªº¯¼ö pid_child¼±¾ğ
-sigset_t block; //ºí·ÏÇÒ ½Ã±×³ÎÁıÇÕ
-
+int pid_child; //ìì‹ì˜ pidë¥¼ í• ë‹¹í•˜ê¸° ìœ„í•œ ì „ì—­ë³€ìˆ˜ pid_childì„ ì–¸
 /********************************************************************/
 void int_handler(int signo)
 {
-        //ÁÖ¹®ÀÌ ¾ø´Â»óÅÂ¿¡¼­ SIGINT ¶Ç´Â SIGQUIT½Ã±×³ÎÀÌ ¿À´Â°æ¿ì
-        kill(pid_child, SIGINT); //ÀÚ½ÄÁ¾·á
-        printf("\nÀÚ½Ä ÇÁ·Î¼¼½º¸¦ Á¾·áÇÏ¿´½À´Ï´Ù.\n");
-        exit(0); //ÀÚ½ÅÁ¾·á
+        //ì£¼ë¬¸ì´ ì—†ëŠ”ìƒíƒœì—ì„œ SIGINT ë˜ëŠ” SIGQUITì‹œê·¸ë„ì´ ì˜¤ëŠ”ê²½ìš°
+        kill(pid_child, SIGINT); //ìì‹ì¢…ë£Œ
+        printf("\nìì‹ í”„ë¡œì„¸ìŠ¤ë¥¼ ì¢…ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤.\n");
+        exit(0); //ìì‹ ì¢…ë£Œ
 }
 /********************************************************************/
 void sigusr1_handler(int signo)
 {
-        struct sigaction act;
-        act.sa_flags = 0;
-        //ÀÚ½ÄÀ¸·ÎºÎÅÍ SIGUSR1 ½Ã±×³ÎÀÌ ¿À¸é ¿ä¸® Á¦°ø
+        //ìì‹ìœ¼ë¡œë¶€í„° SIGUSR1 ì‹œê·¸ë„ì´ ì˜¤ë©´ ìš”ë¦¬ ì œê³µ
         printf("---------- parent process ----------\n");
-        printf("¿Ï¼ºµÈ ¿ä¸®¸¦ Àü´Ş¹Ş¾Æ ¼Õ´Ô¿¡°Ô Á¦°øÇÏ¿´½À´Ï´Ù.\n");
+        printf("ì™„ì„±ëœ ìš”ë¦¬ë¥¼ ì „ë‹¬ë°›ì•„ ì†ë‹˜ì—ê²Œ ì œê³µí•˜ì˜€ìŠµë‹ˆë‹¤.\n");
 
-        sigemptyset(&block); //ºí·ÏÇÏ¿´´ø ½Ã±×³ÎÁıÇÕ ºñ¿öÁÜ
-        sigprocmask(SIG_SETMASK, &block, NULL);
-
-        act.sa_handler = int_handler; //SIGINT°¡ ¿À´Â°æ¿ì ´Ù½Ã int_handler·Î µ¿ÀÛ
+        struct sigaction act;
+        sigemptyset(&act.sa_mask);
+        act.sa_flags = 0;
+        act.sa_handler = int_handler; //SIGINTê°€ ì˜¤ëŠ”ê²½ìš° ë‹¤ì‹œ int_handlerë¡œ ë™ì‘
         if(sigaction(SIGINT, &act, (struct sigaction *)NULL) < 0)
         {
-                perror("sigaction ¿¡·¯ ¹ß»ı");
+                perror("sigaction ì—ëŸ¬ ë°œìƒ");
                 exit(3);
         }
 }
@@ -43,69 +39,76 @@ int main(void)
 
         if(pid_child < 0)
         {
-                perror("fork ¿¡·¯¹ß»ı");
+                perror("fork ì—ëŸ¬ë°œìƒ");
                 exit(1);
         }
-        //ÀÚ½ÄÇÁ·Î¼¼½ºÀÎ°æ¿ì exec·Î ÇÁ·Î±×·¥ÀÇ ¸öÃ¼¸¦ c_cook.exe·Î º¯°æ 
+        //ìì‹í”„ë¡œì„¸ìŠ¤ì¸ê²½ìš° execë¡œ í”„ë¡œê·¸ë¨ì˜ ëª¸ì²´ë¥¼ c_cook.exeë¡œ ë³€ê²½ 
         else if(pid_child == 0)
         {
                 if(execl("./c_cook.exe", "c_cook.exe", NULL) < 0)
                 {
-                        perror("execl ¿¡·¯ ¹ß»ı");
+                        perror("execl ì—ëŸ¬ ë°œìƒ");
                         exit(2);
                 }
         }
-        //ºÎ¸ğÇÁ·Î¼¼½ºÀÎ°æ¿ì
-        else
+
+        struct sigaction act;
+        sigemptyset(&act.sa_mask);
+        act.sa_flags = 0;
+        act.sa_handler = int_handler;
+        //ì£¼ë¬¸ì „ SIGINTì‹œê·¸ë„ ë°œìƒí•˜ëŠ”ê²½ìš°
+        if(sigaction(SIGINT, &act, (struct sigaction *)NULL) < 0)
         {
+                perror("sigaciton ì—ëŸ¬ ë°œìƒ");
+                exit(3);
+        }
 
-                struct sigaction act;
-                sigemptyset(&act.sa_mask);
-                act.sa_flags = 0;
-                act.sa_handler = int_handler;
-                //ÁÖ¹®Àü SIGINT½Ã±×³Î ¹ß»ıÇÏ´Â°æ¿ì
-                if(sigaction(SIGINT, &act, (struct sigaction *)NULL) < 0)
+        while(1)        //ë°˜ë³µí•´ì„œ ë©”ë‰´ì¶œë ¥
+        {
+                printf("---------- parent process ----------\n");
+                printf("ìŒì‹ì„ ì£¼ë¬¸í•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y/n) : ");
+                char answer;
+                scanf("%c", &answer);
+
+                switch(answer)
                 {
-                        perror("sigaciton ¿¡·¯ ¹ß»ı");
-                        exit(3);
-                }
+                        case 'Y' :
+                        case 'y' : //ì£¼ë¬¸ì´ ë“¤ì–´ì˜¤ë©´ SIGUSR1ì„ ì œì™¸í•œ ëª¨ë“ ì‹œê·¸ë„ ë¸”ë¡
+                                sigemptyset(&act.sa_mask);
+                                act.sa_flags = 0;
+                                act.sa_handler = sigusr1_handler;
+                                sigaction(SIGUSR1, &act, NULL);
+                                //ì‚¬ìš©ìë¡œë¶€í„° ì£¼ë¬¸ë°›ì•„ ìì‹í”„ë¡œì„¸ìŠ¤ì—ê²Œ ì£¼ë¬¸ì „ë‹¬
+                                if(sigaction(SIGUSR1, &act, (struct sigaction *)NULL) < 0)
+                                {
+                                        perror("sigaction ì—ëŸ¬ ë°œìƒ");
+                                        exit(3);
+                                }
 
-                while(1)        //¹İº¹ÇØ¼­ ¸Ş´ºÃâ·Â
-                {
-                        sigemptyset(&block);
-                        sigprocmask(SIG_SETMASK, &block, NULL);
-                        printf("---------- parent process ----------\n");
-                        printf("À½½ÄÀ» ÁÖ¹®ÇÏ½Ã°Ú½À´Ï±î? (y/n) : ");
-                        char answer;
-                        scanf("%c", &answer);
-
-                        switch(answer)
-                        {
-                                case 'Y' :
-                                case 'y' : //ÁÖ¹®ÀÌ µé¾î¿À¸é SIGUSR1À» Á¦¿ÜÇÑ ¸ğµç½Ã±×³Î ºí·Ï
-                                        sigfillset(&block);
-                                        sigdelset(&block, SIGUSR1);
-                                        sigprocmask(SIG_SETMASK, &block, NULL);
-                                        act.sa_handler = sigusr1_handler;
-                                        //»ç¿ëÀÚ·ÎºÎÅÍ ÁÖ¹®¹Ş¾Æ ÀÚ½ÄÇÁ·Î¼¼½º¿¡°Ô ÁÖ¹®Àü´Ş
-                                        if(sigaction(SIGUSR1, &act, (struct sigaction *)NULL) < 0)
+                                sigemptyset(&act.sa_mask);
+                                act.sa_flags = 0;
+                                act.sa_handler = SIG_IGN;
+                                int signum;
+                                for(signum=1; signum<=40; signum++) //SIGUSR1ì„ ì œì™¸í•œ ëª¨ë“  ì‹œê·¸ë„ ë¬´ì‹œ
+                                {
+                                        if(signum != SIGUSR1)
                                         {
-                                                perror("sigaction ¿¡·¯ ¹ß»ı");
-                                                exit(3);
+                                        sigaction(signum, &act, NULL);
                                         }
-                                        kill(pid_child, SIGUSR1); //ÀÚ½Ä¿¡°Ô SIGUSR1 ½Ã±×³Î º¸³¿
-                                        printf("ÁÖ¹®À» ¿äÃ»ÇÏ¿´½À´Ï´Ù.\n");
-                                        pause();
-                                        break;
-                                case 'N':
-                                case 'n':
-                                        printf("ÁÖ¹®ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.\n");
-                                        exit(0);
-                                default :
-                                        printf("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. y or n\n");
-                                        exit(4);
-                        }
-                        getchar();
+                                }
+
+                                kill(pid_child, SIGUSR1); //ìì‹ì—ê²Œ SIGUSR1 ì‹œê·¸ë„ ë³´ëƒ„
+                                printf("ì£¼ë¬¸ì„ ìš”ì²­í•˜ì˜€ìŠµë‹ˆë‹¤.\n");
+                                pause();
+                                break;
+                        case 'N':
+                        case 'n':
+                                printf("ì£¼ë¬¸í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.\n");
+                                exit(0);
+                        default :
+                                printf("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. y or n\n");
+                                exit(4);
                 }
+                getchar();
         }
 }
