@@ -73,7 +73,7 @@ int main(void)
                 switch(answer)
                 {
                         case 'Y' :
-                        case 'y' : //주문이 들어오면 SIGUSR1을 제외한 모든시그널 블록
+                        case 'y' :
                                 sigemptyset(&act.sa_mask);
                                 act.sa_flags = 0;
                                 act.sa_handler = sigusr1_handler;
