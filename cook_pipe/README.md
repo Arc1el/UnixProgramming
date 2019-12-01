@@ -1,5 +1,7 @@
 # Cook program using pipe
 
+![Image of Pipeline](https://github.com/Arc1el/UnixProgramming/blob/master/cook_pipe/cook_pipe.png)
+
 1. 부모는 자식에게 문자열로 메뉴입력받아 파이프로 전달
  - mkfifo를 사용하여 2개의 이름있는 파이프를 생성, 부모자식간 통신에 사용하였습니다. 통신에 사용된 파일디스크립터는 위의 파이프 설계 그림과 같습니다.
 
