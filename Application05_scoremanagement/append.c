@@ -3,9 +3,9 @@
 
 void append(char *file, int id, char *name,int korean, int english, int math)
 {
-        printf("¼ºÀû Ãß°¡ ÇÁ·Î±×·¥ÀÔ´Ï´Ù.\n");
-        printf("Ãß°¡ÇÒ ÇĞ»ıµ¥ÀÌÅÍ´Â ´ÙÀ½°ú °°½À´Ï´Ù.\n");
-        printf("%8s\t%8s\t%8s\t%8s\t%8s\n","ÇĞ¹ø","ÀÌ¸§","±¹¾î","¿µ¾î","¼öÇĞ");
+        printf("ì„±ì  ì¶”ê°€ í”„ë¡œê·¸ë¨ì…ë‹ˆë‹¤.\n");
+        printf("ì¶”ê°€í•  í•™ìƒë°ì´í„°ëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.\n");
+        printf("%8s\t%8s\t%8s\t%8s\t%8s\n","í•™ë²ˆ","ì´ë¦„","êµ­ì–´","ì˜ì–´","ìˆ˜í•™");
         printf("%8d%7s\t%7d\t%7d\t%7d\n",id,name,korean,english,math);
 
         int all;
@@ -18,7 +18,7 @@ void append(char *file, int id, char *name,int korean, int english, int math)
         fp=fopen(file,"ab");
         if(fp==NULL)
         {
-                perror("ÆÄÀÏÀ» ¿©´Âµ¥ ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
+                perror("íŒŒì¼ì„ ì—¬ëŠ”ë° ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
                 exit(1);
         }
         stu.id=id;
