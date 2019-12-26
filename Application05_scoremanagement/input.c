@@ -5,36 +5,36 @@
 void input(char *file)
 {
         score stu;
-        printf("¼ºÀûÀÔ·ÂÇÁ·Î±×·¥ÀÔ´Ï´Ù.\n");
+        printf("ì„±ì ì…ë ¥í”„ë¡œê·¸ë¨ì…ë‹ˆë‹¤.\n");
         FILE *fp;
         fp=fopen(file,"wb+");
         if(fp==NULL)
         {
-                perror("ÆÄÀÏÀ» ¿©´Âµ¥ ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
+                perror("íŒŒì¼ì„ ì—¬ëŠ”ë° ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
                 exit(1);
         }
         while(1)
         {
                 memset(&stu,0,sizeof(stu));
-                printf("ÇĞ¹øÀ» ÀÔ·ÂÇÏ¼¼¿ä(Á¾·á0) : ");
+                printf("í•™ë²ˆì„ ì…ë ¥í•˜ì„¸ìš”(ì¢…ë£Œ0) : ");
                 scanf("%d",&stu.id);
                 if(stu.id==0)
                 {
-                        printf("0À» ÀÔ·ÂÇÏ¿© Á¾·áÇÕ´Ï´Ù.\n");
+                        printf("0ì„ ì…ë ¥í•˜ì—¬ ì¢…ë£Œí•©ë‹ˆë‹¤.\n");
                         break;
                 }
                 __fpurge(stdin);
-                printf("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä : ");
+                printf("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš” : ");
                 fgets(stu.name,sizeof(stu.name),stdin);
                 stu.name[strlen(stu.name)-1]='\0';
                 __fpurge(stdin);
-                printf("±¹¾îÁ¡¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+                printf("êµ­ì–´ì ìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ");
                 scanf("%d",&stu.korean);
                 __fpurge(stdin);
-                printf("¿µ¾îÁ¡¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+                printf("ì˜ì–´ì ìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ");
                 scanf("%d",&stu.english);
                 __fpurge(stdin);
-                printf("¼öÇĞÁ¡¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+                printf("ìˆ˜í•™ì ìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ");
                 scanf("%d",&stu.math);
                 __fpurge(stdin);
                 stu.all= stu.korean + stu.english + stu.math;
