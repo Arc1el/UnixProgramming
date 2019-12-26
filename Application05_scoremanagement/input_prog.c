@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
         if(argc<2)
         {
-                printf("µ¥ÀÌÅÍÆÄÀÏ 1°³¿Í °°ÀÌ »ç¿ëÇÏ¼¼¿ä.\n»ç¿ë¿¹ : %s data.dat",argv[0]);
+                printf("ë°ì´í„°íŒŒì¼ 1ê°œì™€ ê°™ì´ ì‚¬ìš©í•˜ì„¸ìš”.\nì‚¬ìš©ì˜ˆ : %s data.dat",argv[0]);
                 exit(1);
         }
         char *file;
