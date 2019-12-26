@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
         }
 
         char *filename = argv[1];
-        printf("ÆÄÀÏ¸í : %s\n",argv[1]);
+        printf("íŒŒì¼ëª… : %s\n",argv[1]);
 
         int kind;
         struct stat stat_buf;
@@ -31,17 +31,17 @@ int main(int argc, char *argv[])
         }
 
         kind=stat_buf.st_mode & S_IFMT;
-        printf("ÆÄÀÏÁ¾·ù : ");
+        printf("íŒŒì¼ì¢…ë¥˜ : ");
         switch(kind)
         {
                 case S_IFIFO:
-                        printf("FIFOÆÄÀÏ\n");
+                        printf("FIFOíŒŒì¼\n");
                         break;
                 case S_IFDIR:
-                        printf("µğ·ºÅä¸®ÆÄÀÏ\n");
+                        printf("ë””ë ‰í† ë¦¬íŒŒì¼\n");
                         break;
                 case S_IFREG:
-                        printf("ÀÏ¹İÆÄÀÏ\n");
+                        printf("ì¼ë°˜íŒŒì¼\n");
                         break;
         }
 
@@ -59,12 +59,12 @@ int main(int argc, char *argv[])
                 }
         }
         mode_str[MODE_STR_SIZE -1]='\0';
-        printf("Á¢±Ù ±ÇÇÑ : %s\n", mode_str);
+        printf("ì ‘ê·¼ ê¶Œí•œ : %s\n", mode_str);
 
         if(stat(argv[1], &stat_buf)==0)
         {
                 printf("UID : %d\n",(int)stat_buf.st_uid);
-                printf("ÆÄÀÏ ¼öÁ¤½Ã°£ : %d\n",(int)stat_buf.st_mtime);
+                printf("íŒŒì¼ ìˆ˜ì •ì‹œê°„ : %d\n",(int)stat_buf.st_mtime);
         }
         else
         {
