@@ -9,13 +9,13 @@ void search(char *file,int search_opt,char *optarg)
         int n,return_strcmp,search_id,exist_check=0;
         int best_stu;
         float tmp;
-        printf("¼ºÀû Å½»ö ÇÁ·Î±×·¥ÀÔ´Ï´Ù\n");
+        printf("ì„±ì  íƒìƒ‰ í”„ë¡œê·¸ë¨ì…ë‹ˆë‹¤\n");
         FILE *fp;
         char search_name[sizeof(stu.name)];
         fp=fopen(file,"rb");
         if(fp==NULL)
         {
-                perror("ÆÄÀÏÀ» ¿©´Âµ¥ ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
+                perror("íŒŒì¼ì„ ì—¬ëŠ”ë° ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
                 exit(1);
         }
         switch(search_opt)
@@ -23,8 +23,8 @@ void search(char *file,int search_opt,char *optarg)
                 case 'n':
                         memset(search_name,0,sizeof(search_name));
                         strncpy(search_name,optarg,sizeof(search_name));
-                        printf("ÀÌ¸§À¸·Î ¼ºÀûÀ» Ã£½À´Ï´Ù. (ÀÌ¸§: %s)\n",search_name);
-                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","ÇĞ¹ø","ÀÌ¸§","±¹¾î","¿µ¾î","¼öÇĞ","ÃÑÁ¡","Æò±Õ");
+                        printf("ì´ë¦„ìœ¼ë¡œ ì„±ì ì„ ì°¾ìŠµë‹ˆë‹¤. (ì´ë¦„: %s)\n",search_name);
+                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","í•™ë²ˆ","ì´ë¦„","êµ­ì–´","ì˜ì–´","ìˆ˜í•™","ì´ì ","í‰ê· ");
                         while ((n=fread(&stu,sizeof(score),1,fp))>0)
                         {
                                 return_strcmp=strcmp(stu.name,search_name);
@@ -36,15 +36,15 @@ void search(char *file,int search_opt,char *optarg)
                         }
                         if(exist_check==0)
                         {
-                                printf("ÇØ´çÇĞ»ıÀÇ ¼ºÀûÀº ¾ø½À´Ï´Ù.\n");
+                                printf("í•´ë‹¹í•™ìƒì˜ ì„±ì ì€ ì—†ìŠµë‹ˆë‹¤.\n");
                                 exit(3);
                         }
                         fclose(fp);
                         break;
                 case 'i':
                         search_id=atoi(optarg);
-                        printf("ÇĞ¹øÀ¸·Î ¼ºÀûÀ» Ã£½À´Ï´Ù. (ÇĞ¹ø: %s)\n",optarg);
-                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","ÇĞ¹ø","ÀÌ¸§","±¹¾î","¿µ¾î","¼öÇĞ","ÃÑÁ¡","Æò±Õ");
+                        printf("í•™ë²ˆìœ¼ë¡œ ì„±ì ì„ ì°¾ìŠµë‹ˆë‹¤. (í•™ë²ˆ: %s)\n",optarg);
+                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","í•™ë²ˆ","ì´ë¦„","êµ­ì–´","ì˜ì–´","ìˆ˜í•™","ì´ì ","í‰ê· ");
                         while ((n=fread(&stu,sizeof(score),1,fp))>0)
                         {
                                 if(stu.id==search_id)
@@ -55,13 +55,13 @@ void search(char *file,int search_opt,char *optarg)
                         }
                         if(exist_check==0)
                         {
-                                printf("ÇØ´çÇĞ»ıÀÇ ¼ºÀûÀº ¾ø½À´Ï´Ù.\n");
+                                printf("í•´ë‹¹í•™ìƒì˜ ì„±ì ì€ ì—†ìŠµë‹ˆë‹¤.\n");
                                 exit(3);
                         }
                         fclose(fp);
                         break;
                 case 'o':
-                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","ÇĞ¹ø","ÀÌ¸§","±¹¾î","¿µ¾î","¼öÇĞ","ÃÑÁ¡","Æò±Õ");
+                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","í•™ë²ˆ","ì´ë¦„","êµ­ì–´","ì˜ì–´","ìˆ˜í•™","ì´ì ","í‰ê· ");
                         tmp=0;
                         while ((n=fread(&stu,sizeof(score),1,fp))>0)
                         {
@@ -81,7 +81,7 @@ void search(char *file,int search_opt,char *optarg)
                         fclose(fp);
                         break;
                 case 's':
-                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","ÇĞ¹ø","ÀÌ¸§","±¹¾î","¿µ¾î","¼öÇĞ","ÃÑÁ¡","Æò±Õ");
+                        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","í•™ë²ˆ","ì´ë¦„","êµ­ì–´","ì˜ì–´","ìˆ˜í•™","ì´ì ","í‰ê· ");
                         tmp=0;
                         while ((n=fread(&stu,sizeof(score),1,fp))>0)
                         {
@@ -105,7 +105,7 @@ void search(char *file,int search_opt,char *optarg)
                         fclose(fp);
                         break;
                 default :
-                        printf("¾Æ¹«¿É¼Çµµ ¼±ÅÃÇÏÁö ¾Ê¾Æ Á¾·áÇÕ´Ï´Ù.\n");
+                        printf("ì•„ë¬´ì˜µì…˜ë„ ì„ íƒí•˜ì§€ ì•Šì•„ ì¢…ë£Œí•©ë‹ˆë‹¤.\n");
                         fclose(fp);
                         break;
         }
