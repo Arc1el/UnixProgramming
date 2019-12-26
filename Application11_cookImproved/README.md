@@ -1,4 +1,4 @@
-# cookImproved.c
+# cookImproved
 
 <h3>요구사항</h3>
 
