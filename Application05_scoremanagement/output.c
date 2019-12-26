@@ -5,14 +5,14 @@ void output(char *file)
         score stu;
         FILE *fp;
         int n;
-        printf("¼ºÀû Ãâ·Â ÇÁ·Î±×·¥ÀÔ´Ï´Ù.\n");
+        printf("ì„±ì  ì¶œë ¥ í”„ë¡œê·¸ë¨ì…ë‹ˆë‹¤.\n");
         fp=fopen(file,"rb");
         if(fp==NULL)
         {
-                perror("ÆÄÀÏÀ» ¿©´Âµ¥ ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
+                perror("íŒŒì¼ì„ ì—¬ëŠ”ë° ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
                 exit(1);
         }
-        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","ÇĞ¹ø","ÀÌ¸§","±¹¾î","¿µ¾î","¼öÇĞ","ÃÑÁ¡","Æò±Õ");
+        printf("%8s\t%8s\t%8s\t%8s\t%8s\t%8s\t%8s\n","í•™ë²ˆ","ì´ë¦„","êµ­ì–´","ì˜ì–´","ìˆ˜í•™","ì´ì ","í‰ê· ");
         while ((n=fread(&stu,sizeof(score),1,fp))>0)
         {
                 printf("%8d%7s\t%7d\t%7d\t%7d\t%7d\t%.2f\n",stu.id, stu.name, stu.korean, stu.english, stu.math, stu.all, stu.avg);
