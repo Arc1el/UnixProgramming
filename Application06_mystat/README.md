@@ -1,4 +1,4 @@
-# mystat
+# mystat.c
 
 <h3>요구사항</h3>
 
