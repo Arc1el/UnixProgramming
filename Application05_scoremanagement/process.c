@@ -6,11 +6,11 @@ void process(char *file)
 
         score stu;
         FILE *fp;
-        printf("¼ºÀû Ã³¸® ÇÁ·Î±×·¥ÀÔ´Ï´Ù.\n");
+        printf("ì„±ì  ì²˜ë¦¬ í”„ë¡œê·¸ë¨ì…ë‹ˆë‹¤.\n");
         fp=fopen(file,"rb");
         if(fp==NULL)
         {
-                perror("ÆÄÀÏÀ» ¿©´Âµ¥ ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
+                perror("íŒŒì¼ì„ ì—¬ëŠ”ë° ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
                 exit(1);
         }
         int n,count=0,total_korean=0,total_english=0,total_math=0,total=0;
@@ -31,8 +31,8 @@ void process(char *file)
         english_avg=total_english/count;
         math_avg=total_math/count;
 
-        printf("%5s  %5s  %5s  %5s  %5s  %5s  %5s  %5s\n","±¹¾îÃÑÁ¡","±¹¾îÆò±Õ","¿µ¾îÃÑÁ¡","¿µ¾îÆò±Õ","¼öÇĞÃÑÁ¡","¼ö
-ÇĞÆò±Õ","ÀüÃ¼ÃÑÁ¡","ÀüÃ¼Æò±Õ");
+        printf("%5s  %5s  %5s  %5s  %5s  %5s  %5s  %5s\n","êµ­ì–´ì´ì ","êµ­ì–´í‰ê· ","ì˜ì–´ì´ì ","ì˜ì–´í‰ê· ","ìˆ˜í•™ì´ì ","ìˆ˜
+í•™í‰ê· ","ì „ì²´ì´ì ","ì „ì²´í‰ê· ");
         printf("  %5d     %.2f     %5d     %.2f     %5d     %.2f     %5d     %.2f\n",total_korean,korean_avg,total_english,english_avg,total_math,math_avg,total, total_avg);
 
         fclose(fp);
